@@ -1,0 +1,5 @@
+node_modules
+steps.md
+cypress/e2e/1-getting-started
+cypress/e2e/2-advanced-examples
+prettierinstall.md
