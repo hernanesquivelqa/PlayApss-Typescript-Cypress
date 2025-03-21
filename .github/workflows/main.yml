@@ -1,0 +1,41 @@
+name: CI Pipeline
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configurar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm' # Habilita caché para las dependencias de Node.js
+
+      # Instalar dependencias del sistema para Cypress
+      - name: Install Cypress dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
+      # Instalar dependencias de Node.js
+      - name: Install dependencies
+        run: npm install
+
+      # Verificar formato con Prettier
+      - name: Check code formatting with Prettier
+        run: npm run format:check
+
+      # Ejecutar tests de Cypress
+      - name: Run Cypress tests
+        run: npm run cypress:run
