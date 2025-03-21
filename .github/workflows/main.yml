@@ -22,15 +22,12 @@ jobs:
           node-version: '16'
           cache: 'npm' # Habilita caché para las dependencias de Node.js
 
-      # Instalar dependencias del sistema para Cypress
-      - name: Install Cypress dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-
-      # Instalar dependencias de Node.js
+   
+      # Install dependencies
       - name: Install dependencies
         run: npm install
+
+
 
       # Verificar formato con Prettier
       - name: Check code formatting with Prettier
