@@ -27,11 +27,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-
+      # Run prettier
+      - name: Run prettier
+        run: npm run format
 
       # Verificar formato con Prettier
       - name: Check code formatting with Prettier
         run: npm run format:check
+
+
 
       # Ejecutar tests de Cypress
       - name: Run Cypress tests
