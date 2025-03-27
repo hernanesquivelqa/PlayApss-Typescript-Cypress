@@ -1,6 +1,6 @@
 import { ILoginPage } from '../types/loginPage.interface';
-import * as dotenv from "dotenv";
-dotenv.config();
+require('dotenv').config();
+
 export class LoginPage implements ILoginPage {
   url: string;
   
@@ -8,6 +8,7 @@ export class LoginPage implements ILoginPage {
   usernameInput: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
   passwordInput: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
   submitForm: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
+
   constructor() {
     this.url = 'https://www.saucedemo.com/';
     this.boxForm = () => cy.get('#login_button_container.form_column');
@@ -16,17 +17,15 @@ export class LoginPage implements ILoginPage {
     this.submitForm = () => cy.get('input[type="submit"]');
   }
 
-  fillForm(): void {
-    const username = process.env.USERNAME;
-    const password = process.env.PASSWORD;
+  fillForm(username: string, password: string): void {
     if (!username) {
-      throw new Error('USERNAME is not defined in Cypress environment variables');
+      throw new Error('Username parameter is required');
     }
     if (!password) {
-      throw new Error('PASSWORD is not defined in Cypress environment variables');
+      throw new Error('Password parameter is required');
     }
-    this.usernameInput().click().type(username);
-    this.passwordInput().click().type(password);
+    this.usernameInput().type(username);
+    this.passwordInput().type(password);
     this.submitForm().click();
   }
 }

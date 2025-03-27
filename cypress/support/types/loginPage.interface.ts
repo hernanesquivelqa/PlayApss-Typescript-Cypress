@@ -4,5 +4,5 @@ export interface ILoginPage {
   usernameInput: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
   passwordInput: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
   submitForm: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
-  fillForm(): void;
+  fillForm(username: string, password: string): void; 
 }
