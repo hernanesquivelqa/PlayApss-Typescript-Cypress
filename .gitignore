@@ -5,3 +5,4 @@ cypress/e2e/2-advanced-examples
 prettierinstall.md
 env.md
 .env
+random.js
