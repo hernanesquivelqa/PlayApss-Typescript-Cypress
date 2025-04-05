@@ -35,3 +35,7 @@
 //     }
 //   }
 // }
+  Cypress.Commands.add('generateRandomAmount', () => {
+  const randomAmount = Math.floor(Math.random() * 100000) + 1;
+  return cy.wrap(randomAmount);
+ });

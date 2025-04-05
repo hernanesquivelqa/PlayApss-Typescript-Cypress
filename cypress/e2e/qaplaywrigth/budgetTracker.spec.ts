@@ -1,25 +1,25 @@
+import { BudgetTrackerPage } from "../../support/pages/budgetTrackerPage";
+
 describe('Testing budget-tracker application', () => {
-    beforeEach(() => {
-      cy.visit('https://qaplayground.dev/apps/budget-tracker/');
-    });
-    it('TC1: Adds a random amount and checks the total',()=>{
-      const randomAmount = Math.floor(Math.random() * 100000) + 1;  
-      cy.get(".controls > button").click();
-        cy.get('.input.input-description').type("This is a description");
-        cy.get('.input.input-amount').clear().type(`${randomAmount}{enter}`);
-        // Esperamos a que todo se procese antes de verificar
-        cy.get('td.summary > span.total').then(($el) => {
-          const expectedFormatted = randomAmount.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
-      
-          expect($el.text()).to.equal(expectedFormatted);
-        });
-      });
-    })
-    it.skip('TC2: Adds multiple transactions and checks formatted total', () => {
-      
+  let budgetTrackerPage: BudgetTrackerPage;
+
+  beforeEach(() => {
+    budgetTrackerPage = new BudgetTrackerPage();
+    cy.visit(budgetTrackerPage.url);
   });
+
+  it('TC1: Adds a random amount and checks the total', () => {
+    cy.generateRandomAmount().then((randomAmount) => {
+      budgetTrackerPage.clickOnNewEntryButton();
+      budgetTrackerPage.enterDescription("This is a description");
+      budgetTrackerPage.enterAmount(randomAmount);
+      
+      budgetTrackerPage.getTotal().then(($el) => {
+        const expectedFormatted = budgetTrackerPage.formatAmount(randomAmount);
+        expect($el.text()).to.equal(expectedFormatted);
+      });
+    });
+  });
+
+
+});
