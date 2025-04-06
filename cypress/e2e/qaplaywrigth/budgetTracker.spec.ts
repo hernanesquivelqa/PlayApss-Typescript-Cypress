@@ -11,6 +11,8 @@ describe('Testing budget-tracker application', () => {
   it('TC1: Adds a random amount and checks the total', () => {
     cy.generateRandomAmount().then((randomAmount) => {
       budgetTrackerPage.clickOnNewEntryButton();
+      budgetTrackerPage.setRandomDate()
+      budgetTrackerPage.inputDate().should('have.value', budgetTrackerPage.setRandomDate())
       budgetTrackerPage.enterDescription("This is a description");
       budgetTrackerPage.enterAmount(randomAmount);
       
@@ -20,6 +22,11 @@ describe('Testing budget-tracker application', () => {
       });
     });
   });
+  it('TC2: Adds multiply new entry', () => {
+    budgetTrackerPage.clickOnNewEntryButton();
+    budgetTrackerPage.setRandomDate()
+    budgetTrackerPage.inputDate().should('have.value', budgetTrackerPage.setRandomDate())
 
+  });
 
 });

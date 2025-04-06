@@ -3,4 +3,5 @@ export interface IBudgetTrackerPage{
     newEntryButton: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>
     inputDescription: ()=> Cypress.Chainable<JQuery<HTMLHtmlElement>>
     inputAmount: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
+    inputDate: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
 }
