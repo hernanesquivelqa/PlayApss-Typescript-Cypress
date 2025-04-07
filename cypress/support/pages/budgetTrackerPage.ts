@@ -1,18 +1,44 @@
-import { nth } from "cypress/types/lodash";
-import { IBudgetTrackerPage } from "../types/budgetTrackerPage.interface";
+
+import { IBudgetTrackerPage, Entry} from "../types/budgetTrackerPage.interface";
 export class BudgetTrackerPage implements IBudgetTrackerPage {
-    url: string;
-    newEntryButton: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
-    inputDescription: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
-    inputAmount: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
-    inputDate: () => Cypress.Chainable<JQuery<HTMLHtmlElement>>;
-    constructor(){
-        this.url = "https://qaplayground.dev/apps/budget-tracker/";
-        this.newEntryButton = () => cy.get(".controls > button");
-        this.inputDescription = () => cy.get('.input.input-description');
-        this.inputAmount = () => cy.get('.input.input-amount');
-        this.inputDate = () => cy.get('input.input-date');
-    }
+  private selectors = {
+      newEntryButton: ".controls > button",
+      inputDescription: ".input.input-description",
+      inputAmount: ".input.input-amount",
+      inputDate: "input.input-date",
+      inputType: ".input.input-type",
+  };
+  private descriptions: string[] = [
+    "Monthly Salary",
+    "Grocery Shopping",
+    "Freelance Payment",
+    "Rent Payment",
+    "Utility Bills",
+    "Restaurant Dinner",
+    "Online Subscription",
+    "Car Maintenance",
+    "Holiday Gift",
+    "Investment Dividend"
+];
+
+  constructor(
+      public url: string = "https://qaplayground.dev/apps/budget-tracker/",
+      public entries: Entry[] = [
+        { type: 'income', description: 'Salary' },
+        { type: 'expense', description: 'Groceries' },
+        { type: 'income', description: 'Bonus' },
+        { type: 'expense', description: 'Rent' }
+    ]
+  ) {}
+
+  private getElement(selector: string): Cypress.Chainable<JQuery<HTMLHtmlElement>> {
+      return cy.get(selector);
+  }
+  newEntryButton = () => this.getElement(this.selectors.newEntryButton);
+  inputDescription = () => this.getElement(this.selectors.inputDescription);
+  inputAmount = () => this.getElement(this.selectors.inputAmount);
+  inputDate = () => this.getElement(this.selectors.inputDate);
+  inputType = () => this.getElement(this.selectors.inputType);
 
     clickOnNewEntryButton(): void {
         this.newEntryButton().click();
@@ -74,4 +100,21 @@ export class BudgetTrackerPage implements IBudgetTrackerPage {
           return $el.text(); // Devuelve el texto ya formateado por la UI
         });
       }
+      getRandomDescription(): string {
+        const randomIndex = Math.floor(Math.random() * this.descriptions.length);
+        return this.descriptions[randomIndex];
+    }
+    
+
+      addRandomNewEntry(randomAmount:number, type:string = "income",index:number = 0, randomDescription = this.getRandomDescription()){
+      this.clickOnNewEntryButton();
+      this.setRandomDate()
+      this.inputType().eq(index).select(type).should('have.value',type)
+      this.inputDate().eq(index).should('have.value', this.setRandomDate())
+      this.enterDescription(randomDescription, index);
+      this.enterAmount(randomAmount,index);
+     }
+     updateTotal(type: string, amount: number): number {
+      return type === 'income' ? amount : -amount;
+    }
 }
