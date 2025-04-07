@@ -1,3 +1,4 @@
+import { nth } from "cypress/types/lodash";
 import { IBudgetTrackerPage } from "../types/budgetTrackerPage.interface";
 export class BudgetTrackerPage implements IBudgetTrackerPage {
     url: string;
@@ -34,9 +35,10 @@ export class BudgetTrackerPage implements IBudgetTrackerPage {
       const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
       return date.toISOString().split('T')[0]; // Formato compatible con input[type="date"]
     }
-    setRandomDate(): string {
+    setRandomDate(index:number = 0): string {
       const randomDate: string = this.randomDate(new Date(2020, 0, 1), new Date()); // entre 01/01/2020 y hoy
       this.inputDate()
+        .eq(index)
         .should('have.attr', 'type', 'date')
         .type(randomDate);
     
@@ -45,12 +47,12 @@ export class BudgetTrackerPage implements IBudgetTrackerPage {
 
 
 
-    enterDescription(description: string): void {
-        this.inputDescription().type(description);
+    enterDescription(description: string, index: number = 0): void {
+        this.inputDescription().eq(index).type(description);
     }
 
-    enterAmount(amount: number): void {
-        this.inputAmount().clear().type(`${amount}{enter}`);
+    enterAmount(amount: number, index: number = 0): void {
+        this.inputAmount().eq(index).clear().type(`${amount}{enter}`);
     }
 
     getTotal(): Cypress.Chainable<JQuery<HTMLHtmlElement>> {
