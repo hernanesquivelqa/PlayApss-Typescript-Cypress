@@ -40,3 +40,6 @@ jobs:
       # Ejecutar tests de Cypress
       - name: Run Cypress tests
         run: npm run cypress:run
+        env:
+          CYPRESS_USER_USERNAME: ${{ secrets.USER_USERNAME }}
+          CYPRESS_USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
