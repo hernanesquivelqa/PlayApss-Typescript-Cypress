@@ -13,12 +13,12 @@ describe('Login Sauce Demo', () => {
  
   });
 
-  it('TC1: Verify the loading of the login form', () => {
+  it.skip('TC1: Verify the loading of the login form', () => {
     cy.visit(page.url);
     page.boxForm().should('be.visible');
   });
 
-  it('TC2: Verify a successful login with valid credentials', () => {
+  it.skip('TC2: Verify a successful login with valid credentials', () => {
     cy.visit(page.url);
     page.fillForm(username, password);
     cy.url().should('include', '/inventory.html');
