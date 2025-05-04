@@ -1,4 +1,4 @@
-import InputValidation from "../../support/pages/evilTester/inputValidation";
+import InputValidation from "../../support/pages/evilTester/inputValidationPage";
 
 describe('Input Validation EvilTester', () => {
   let inputValidation: InputValidation;

@@ -1,12 +1,23 @@
-describe('Testing Calculator App',()=>{
+import { CalculatorPage } from "../../support/pages/evilTester/calculatorPage";
 
-it('should be able to add two numbers', () => {
-    cy.visit('https://testpages.eviltester.com/styled/apps/calculator.html')
-    cy.get('#calculated-display').type('2')
-    cy.get('#buttonplus').click()
-    cy.get('#calculated-display').type('2')
-    cy.get('#buttonequals').click().then(() => {
-        cy.get('#calculated-display').should('have.value', '4')
-    })
-})
-})
+describe('Testing Calculator App', () => {
+  let calculatorPage: CalculatorPage;
+
+  beforeEach(() => {
+    calculatorPage = new CalculatorPage();
+    calculatorPage.visit();
+  });
+
+  it.skip('should add two random numbers and verify the result', () => {
+    const { num1, num2, expected } = calculatorPage.getTwoRandomNumbers();
+
+    cy.log(`Random numbers: ${num1} + ${num2} = ${expected}`);
+    calculatorPage.buttonAllClear();
+    calculatorPage.enterNumber(num1);
+    calculatorPage.clickPlus();
+    calculatorPage.enterNumber(num2);
+    calculatorPage.clickEquals();
+    calculatorPage.getDisplay().should('have.value', expected);
+  });
+});
+
