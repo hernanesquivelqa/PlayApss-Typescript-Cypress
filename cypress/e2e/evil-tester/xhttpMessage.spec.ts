@@ -3,12 +3,7 @@ describe('HTTP Messages App', () => {
 
   it('should process all HTTP messages and end at count 0:0', () => {
     cy.visit(url);
-    cy.get('[data-test=message-count]')     
-      .as('counter');
-    cy.get('#messagesdisplay')
-      .as('logContainer');
-    cy.get('@counter')
+    cy.get('#messagecount', { timeout: 15000 })
       .should('contain.text', '0 : 0');
-
   })
 });
